@@ -11,7 +11,7 @@ pipeline {
 
         sh 'docker container rm -f testNode || true' 
         script {
-            dockerImage=docker.build("farrukhw/test-node-app:latest")
+            dockerImage=docker.build("farrukhw/test-node-app:${env.BUILD_ID}")
         }
 
       } 
@@ -30,7 +30,7 @@ pipeline {
         steps{ 
             script { 
                 docker.withRegistry( '', registryCredential ) { 
-                  //sh 'docker push farrukhw/test-node-app:latest' 
+                  //sh 'docker push farrukhw/test-node-app:${env.BUILD_ID}' 
                   dockerImage.push()
                 } 
             } 
