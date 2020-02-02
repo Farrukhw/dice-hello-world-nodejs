@@ -11,7 +11,7 @@ pipeline {
 
         sh 'docker container rm -f testNode || true' 
         script {
-            dockerImage=docker.build("farrukhw/test-node-appLlatest")
+            dockerImage=docker.build("farrukhw/test-node-app:latest")
         }
 
       } 
@@ -42,6 +42,8 @@ pipeline {
       always {
         script {
           receiver_container.stop()
+          receiver_container.remove()
+          
         }
       }
     }
