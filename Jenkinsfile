@@ -1,3 +1,5 @@
+def receiver_container
+def dockerImage
 pipeline { 
   agent any 
   environment { 
@@ -6,13 +8,21 @@ pipeline {
   stages { 
     stage('Build') { 
       steps { 
-        sh 'docker build -t farrukhw/test-node-app .' 
+
+        sh 'docker container rm -f testNode || true' 
+        script {
+            dockerImage=docker.build("farrukhw/test-node-appLlatest")
+        }
+
       } 
     } 
     stage('Test') { 
       steps { 
-        sh 'docker container rm -f node || true'  
-        sh 'docker container run -p 8001:8080 --name node -d farrukhw/test-node-app' 
+        script {
+            receiver_container=dockerImage.run("-d -p 8001:80080 --name='testNode'")
+        }
+        // sh 'docker container rm -f node || true'  
+        // sh 'docker container run -p 8001:8080 --name node -d farrukhw/test-node-app' 
         sh 'curl -I http://localhost:8001' 
       } 
     } 
@@ -20,10 +30,19 @@ pipeline {
         steps{ 
             script { 
                 docker.withRegistry( '', registryCredential ) { 
-                  sh 'docker push farrukhw/test-node-app:latest' 
+                  //sh 'docker push farrukhw/test-node-app:latest' 
+                  dockerImage.push()
                 } 
             } 
         } 
       } 
     } 
+
+    post {
+      always {
+        script {
+          receiver_container.stop()
+        }
+      }
+    }
 }
