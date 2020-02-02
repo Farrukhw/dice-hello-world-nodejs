@@ -19,7 +19,7 @@ pipeline {
     stage('Test') { 
       steps { 
         script {
-            receiver_container=dockerImage.run("-d -p 8001:80080 --name='testNode'")
+            receiver_container=dockerImage.run("-p 8001:8080 --name 'testNode'")
         }
         // sh 'docker container rm -f node || true'  
         // sh 'docker container run -p 8001:8080 --name node -d farrukhw/test-node-app' 
