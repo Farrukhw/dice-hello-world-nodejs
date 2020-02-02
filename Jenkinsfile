@@ -1,9 +1,11 @@
 def receiver_container
 def dockerImage
+
 pipeline { 
   agent any 
   environment { 
     registryCredential = 'Hub.Docker' 
+    containerName='testNode'
   } 
   stages { 
     stage('Build') { 
@@ -19,7 +21,7 @@ pipeline {
     stage('Test') { 
       steps { 
         script {
-            receiver_container=dockerImage.run("-p 8001:8080 --name 'testNode'")
+          receiver_container=dockerImage.run("-p 8001:8080 --name ${containerName}")
         }
         // sh 'docker container rm -f node || true'  
         // sh 'docker container run -p 8001:8080 --name node -d farrukhw/test-node-app' 
@@ -42,7 +44,8 @@ pipeline {
       always {
         script {
           receiver_container.stop()
-          receiver_container.remove()
+          //receiver_container.remove()
+          sh 'docker rm -f ${containerName} || true'
           
         }
       }
