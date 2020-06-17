@@ -1,7 +1,8 @@
 def receiver_container
 def dockerImage
 
-pipeline { 
+pipeline 
+{ 
   agent any 
   environment { 
     registryCredential = 'Hub.Docker' 
@@ -10,7 +11,11 @@ pipeline {
   stages { 
     stage('Build') { 
       steps { 
-        echo "Just Testing for folder properties
+          echo "============= testing ==================="
+
+        }
+
       } 
     } 
+
 }
