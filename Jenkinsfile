@@ -25,6 +25,8 @@ pipeline
                   writeFile file: 'version.txt', text: newVersion
 
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                      bat("git config user.name 'farrukh'")
+                      bat("git config user.email 'farrukh1@gmail.com'")
                       bat("git commit version.txt -m \"Version updated to ${newVersion}\"")
                       bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs HEAD:master")
                       bat("git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
