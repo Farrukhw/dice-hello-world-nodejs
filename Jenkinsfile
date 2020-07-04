@@ -6,6 +6,8 @@ pipeline
   environment {
     registryCredential = 'Hub.Docker'
     containerName = 'testNode'
+    FARRUKHW_GITHUB_ID  = credentials('jenkins-aws-secret-key-id')
+    
   }
   
   stages {
@@ -21,9 +23,16 @@ pipeline
                   String newVersion = updateVersion()                
                   echo "Naya Version: " + newVersion
                   writeFile file: 'version.txt', text: newVersion
-                  git credentialsId: 'farrukhw_github', url: 'https://github.com/Farrukhw/dice-hello-world-nodejs'
-                  bat "git commit version.txt -m \"Version updated to ${newVersion}\""
-                  bat 'git push'
+
+                  withCredentials([usernamePassword(credentialsId: env.FARRUKHW_GITHUB_ID)]) {
+                    bat "git commit version.txt -m \"Version updated to ${newVersion}\""
+                    bat 'git push'
+                  } 
+
+
+
+                  //git credentialsId: 'farrukhw_github', url: 'https://github.com/Farrukhw/dice-hello-world-nodejs'
+             
                 }
                 else
                 {
