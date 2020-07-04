@@ -17,6 +17,7 @@ pipeline
           
               echo 'new WORKSAPCE: ' + WORKSPACE
               dir (WORKSPACE) {
+                bat "git pull"
                 String newVersion = updateVersion()                
                 writefile file: 'version.txt', text: newVersion
               }
