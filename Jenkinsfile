@@ -1,7 +1,8 @@
 def receiver_container
 def dockerImage
 
-pipeline { 
+pipeline 
+{ 
   agent any 
   environment { 
     registryCredential = 'Hub.Docker' 
@@ -10,44 +11,9 @@ pipeline {
   stages { 
     stage('Build') { 
       steps { 
+          echo "============= testing ==================="
 
-        sh 'docker container rm -f testNode || true' 
-        script {
-            dockerImage=docker.build("farrukhw/test-node-app:${env.BUILD_ID}")
         }
 
       } 
     } 
-    stage('Test') { 
-      steps { 
-        script {
-          receiver_container=dockerImage.run("-p 8001:8080 --name ${containerName}")
-        }
-        // sh 'docker container rm -f node || true'  
-        // sh 'docker container run -p 8001:8080 --name node -d farrukhw/test-node-app' 
-        sh 'curl -I http://localhost:8001' 
-      } 
-    } 
-    stage('Publish') { 
-        steps{ 
-            script { 
-                docker.withRegistry( '', registryCredential ) { 
-                  //sh 'docker push farrukhw/test-node-app:${env.BUILD_ID}' 
-                  dockerImage.push()
-                } 
-            } 
-        } 
-      } 
-    } 
-
-    post {
-      always {
-        script {
-          receiver_container.stop()
-          //receiver_container.remove()
-          sh 'docker rm -f ${containerName} || true'
-          
-        }
-      }
-    }
-}
