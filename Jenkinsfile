@@ -12,16 +12,14 @@ pipeline
     stage('Build') {
       steps {
           echo '============= testing ==================='
-            script{
-              WORKSAPCE = "${WORKSPACE}\\..\\GitHub.Testing"
-          
-              echo 'new WORKSAPCE: ' + WORKSPACE
+            script{            
               dir ("${WORKSPACE}\\..\\GitHub.Testing") {
                 echo "I am in : " + pwd()
-               
+                WORKSAPCE = pwd()
+                echo 'new WORKSAPCE: ' + WORKSPACE                
                 if(fileExists('version.txt')) {
                   String newVersion = updateVersion()                
-                  writefile file: 'version.txt', text: newVersion
+                  echo "Naya Version: " + newVersion
                 }
                 else
                 {
