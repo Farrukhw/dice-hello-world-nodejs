@@ -13,9 +13,9 @@ pipeline
       steps {
           echo '============= testing ==================='
             script{
-              WORKSAPCE = "${WORKSAPCE}\\..\\GitHub.Testing"
+              WORKSAPCE = "${WORKSPACE}\\..\\GitHub.Testing"
             }
-          echo 'new WORKSAPCE: ' + WORKSPACE
+          echo 'new WORKSPACE: ' + WORKSPACE
         }
       }
     }
