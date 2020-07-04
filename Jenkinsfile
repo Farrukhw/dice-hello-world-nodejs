@@ -24,12 +24,10 @@ pipeline
                   echo "Naya Version: " + newVersion
                   writeFile file: 'version.txt', text: newVersion
 
-                  withCredentials([usernamePassword(credentialsId: env.FARRUKHW_GITHUB_ID)]) {
+                  withCredentials([usernameColonPassword(credentialsId: 'farrukhw_github', variable: 'FARRUKHW_GITHUB_ID')]) {
                     bat "git commit version.txt -m \"Version updated to ${newVersion}\""
                     bat 'git push'
-                  } 
-
-
+                  }
 
                   //git credentialsId: 'farrukhw_github', url: 'https://github.com/Farrukhw/dice-hello-world-nodejs'
              
