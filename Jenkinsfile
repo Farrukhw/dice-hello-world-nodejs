@@ -28,7 +28,7 @@ pipeline
                     bat "git config user.email 'Farrukhw@gmail.com'"
                     bat "git config user.name 'Farrukh'"
                     bat "git commit version.txt -m \"Version updated to ${newVersion}\""
-                    bat 'git push'
+                    bat 'git push origin HEAD:master'
                     echo FARRUKHW_GITHUB_ID
                   }
 
