@@ -20,10 +20,11 @@ pipeline
                 if(fileExists('version.txt')) {
                   String newVersion = updateVersion()                
                   echo "Naya Version: " + newVersion
+                  writeFile file: 'version.txt', text: newVersion
                 }
                 else
                 {
-                  echo "No version.txt found in " + pwd()
+                  echo 'No version.txt found in ' + pwd()
                 }
               }
             }
