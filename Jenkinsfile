@@ -25,8 +25,10 @@ pipeline
                   writeFile file: 'version.txt', text: newVersion
 
                   withCredentials([usernameColonPassword(credentialsId: 'farrukhw_github', variable: 'FARRUKHW_GITHUB_ID')]) {
-                    // bat "git commit version.txt -m \"Version updated to ${newVersion}\""
-                    // bat 'git push'
+                    bat "git config user.email 'Farrukhw@gmail.com'"
+                    bat "git config user.name 'Farrukh'"
+                    bat "git commit version.txt -m \"Version updated to ${newVersion}\""
+                    bat 'git push'
                     echo FARRUKHW_GITHUB_ID
                   }
 
