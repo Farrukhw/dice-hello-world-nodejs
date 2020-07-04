@@ -18,7 +18,7 @@ pipeline
               echo 'new WORKSAPCE: ' + WORKSPACE
               dir ("${WORKSPACE}\\..\\GitHub.Testing") {
                 echo "I am in : " + pwd()
-                if(fileExists 'version.txt') {
+                if((fileExists 'version.txt')) {
                   String newVersion = updateVersion()                
                   writefile file: 'version.txt', text: newVersion
                 }
