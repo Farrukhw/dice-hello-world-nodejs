@@ -16,8 +16,8 @@ pipeline
               WORKSAPCE = "${WORKSPACE}\\..\\GitHub.Testing"
           
               echo 'new WORKSAPCE: ' + WORKSPACE
-              dir (WORKSPACE) {
-                bat "git pull"
+              dir ("${WORKSPACE}\\..\\GitHub.Testing") {
+                echo "I am in : " + pwd()
                 String newVersion = updateVersion()                
                 writefile file: 'version.txt', text: newVersion
               }
