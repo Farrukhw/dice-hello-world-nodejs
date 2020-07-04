@@ -1,5 +1,3 @@
-def receiver_container
-def dockerImage
 
 pipeline 
 { 
