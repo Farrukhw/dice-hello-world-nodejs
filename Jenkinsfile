@@ -21,7 +21,7 @@ pipeline
                   String newVersion = updateVersion()                
                   echo "Naya Version: " + newVersion
                   writeFile file: 'version.txt', text: newVersion
-                  bat "git commit version.txt -m \'Version updated to ${newVersion}\'"
+                  bat "git commit version.txt -m \"Version updated to ${newVersion}\""
                   bat 'git push'
                 }
                 else
