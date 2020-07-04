@@ -6,7 +6,7 @@ pipeline
   environment {
     registryCredential = 'Hub.Docker'
     containerName = 'testNode'
-    FARRUKHW_GITHUB_ID  = credentials('farrukhw_github')
+    //FARRUKHW_GITHUB_ID  = credentials('farrukhw_github')
     
   }
   
@@ -28,6 +28,13 @@ pipeline
                     // bat "git commit version.txt -m \"Version updated to ${newVersion}\""
                     // bat 'git push'
                     echo FARRUKHW_GITHUB_ID
+                  }
+
+                  withCredentials([usernamePassword(credentialsId: 'farrukhw_github', passwordVariable: 'my_pass', usernameVariable: 'my_user')]) {
+
+                    echo my_pass
+                    echo my_user
+
                   }
 
                   //git credentialsId: 'farrukhw_github', url: 'https://github.com/Farrukhw/dice-hello-world-nodejs'
