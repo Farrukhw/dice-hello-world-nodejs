@@ -34,7 +34,7 @@ pipeline
                     bat "git config user.name 'Farrukh'"
                     bat "git commit version.txt -m \"Version updated to ${newVersion}\""
                     bat "git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\""
-                    bat 'git push https://${my_user}:${my_pass}@github.com/Farrukhw/dice-hello-world-nodejs --tags'
+                    bat 'git push https://' + my_user + ':' + my_pass'+@github.com/Farrukhw/dice-hello-world-nodejs --tags'
                     echo my_pass
                     echo my_user
 
