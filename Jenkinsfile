@@ -28,7 +28,8 @@ pipeline
                     bat "git config user.email 'Farrukhw@gmail.com'"
                     bat "git config user.name 'Farrukh'"
                     bat "git commit version.txt -m \"Version updated to ${newVersion}\""
-                    bat 'git push origin HEAD:master'
+                    bat "git tag -a ${newVersion} -m \"Version updated to ${newVersion}\""
+                    bat "git push https://${FARRUKHW_GITHUB_ID}@github.com/Farrukhw/dice-hello-world-nodejs --tags"
                     echo FARRUKHW_GITHUB_ID
                   }
 
