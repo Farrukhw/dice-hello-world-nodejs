@@ -18,8 +18,14 @@ pipeline
               echo 'new WORKSAPCE: ' + WORKSPACE
               dir ("${WORKSPACE}\\..\\GitHub.Testing") {
                 echo "I am in : " + pwd()
-                String newVersion = updateVersion()                
-                writefile file: 'version.txt', text: newVersion
+                if(fileExists 'version.txt') {
+                  String newVersion = updateVersion()                
+                  writefile file: 'version.txt', text: newVersion
+                }
+                else
+                {
+                  echo "No version.txt found in " + pwd()
+                }
               }
             }
         }
@@ -30,6 +36,7 @@ pipeline
 
 
 String updateVersion() {
+    echo "version.txt should be in " + pwd()
     def orgVersion = readFile 'version.txt'
     def (major, minor, build) = orgVersion.tokenize('.').collect { it.toInteger() }
     build+=1
