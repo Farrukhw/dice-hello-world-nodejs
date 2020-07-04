@@ -6,13 +6,16 @@ pipeline
   environment {
     registryCredential = 'Hub.Docker'
     containerName = 'testNode'
-    WORKSAPCE="${WORKSAPCE}\\..\\GitHub.Testing"
+    
   }
   stages {
     stage('Build') {
       steps {
           echo '============= testing ==================='
-          echo 'WORKSAPCE: ' + WORKSAPCE
+            script{
+              WORKSAPCE="${WORKSAPCE}\\..\\GitHub.Testing"
+            }
+          echo 'new WORKSAPCE: ' + WORKSAPCE
         }
       }
     }
