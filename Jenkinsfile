@@ -6,7 +6,7 @@ pipeline
   environment {
     registryCredential = 'Hub.Docker'
     containerName = 'testNode'
-    FARRUKHW_GITHUB_ID  = credentials('jenkins-aws-secret-key-id')
+    FARRUKHW_GITHUB_ID  = credentials('farrukhw_github')
     
   }
   
