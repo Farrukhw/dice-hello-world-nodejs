@@ -18,27 +18,11 @@ pipeline
               dir ("${WORKSPACE}\\..\\GitHub.Testing") {
                 echo "I am in : " + pwd()
                 WORKSAPCE = pwd()
-                echo 'new WORKSAPCE: ' + WORKSPACE                
+                echo 'new WORKSAPCE: ' + WORKSPACE
                 if(fileExists('version.txt')) {
-                  String newVersion = updateVersion()                
+                  String newVersion = updateVersion()
                   echo "Naya Version: " + newVersion
                   writeFile file: 'version.txt', text: newVersion
-
-                  withCredentials([usernameColonPassword(credentialsId: 'farrukhw_github', variable: 'FARRUKHW_GITHUB_ID')]) {
-
-                    echo FARRUKHW_GITHUB_ID
-                  }
-
-                  // withCredentials([usernamePassword(credentialsId: 'farrukhw_github', passwordVariable: 'my_pass', usernameVariable: 'my_user')]) {
-                  //   bat "git config user.email 'Farrukhw@gmail.com'"
-                  //   bat "git config user.name 'Farrukh'"
-                  //   bat "git commit version.txt -m \"Version updated to ${newVersion}\""
-                  //   bat "git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\""
-                  //   bat 'git push origin HEAD:master --tags --force'
-                  //   echo my_pass
-                  //   echo my_user
-
-                  // }
 
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                       bat("git commit version.txt -m \"Version updated to ${newVersion}\"")
@@ -62,11 +46,13 @@ pipeline
 String updateVersion() {
     echo "version.txt should be in " + pwd()
     def orgVersion = readFile 'version.txt'
+    echo "Current Version: ${orgVersion}"
     def (major, minor, build) = orgVersion.tokenize('.').collect { it.toInteger() }
     build+=1
     if(build>=999) {
         minor+=1
         build=0
     }
+    echo "Newly calculated Version: ${major}.${minor}.${build}"
     return "${major}.${minor}.${build}"
 }
