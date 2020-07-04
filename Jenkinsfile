@@ -15,7 +15,7 @@ pipeline
             script{
               WORKSAPCE="${WORKSAPCE}\\..\\GitHub.Testing"
             }
-          echo 'new WORKSAPCE: ' + WORKSPACE
+          echo "new WORKSAPCE: " + WORKSPACE
         }
       }
     }
