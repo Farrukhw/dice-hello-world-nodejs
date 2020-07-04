@@ -41,8 +41,8 @@ pipeline
                   // }
 
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                      sh("git tag -a some_tag -m 'Jenkins'")
-                      sh("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@dice-hello-world-nodejs --tags")
+                      bat("git tag -a some_tag -m 'Jenkins'")
+                      bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@dice-hello-world-nodejs --tags")
                   }
 
                   //git credentialsId: 'farrukhw_github', url: 'https://github.com/Farrukhw/dice-hello-world-nodejs'
