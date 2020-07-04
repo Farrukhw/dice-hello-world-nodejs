@@ -25,16 +25,16 @@ pipeline
                   writeFile file: 'version.txt', text: newVersion
 
                   withCredentials([usernameColonPassword(credentialsId: 'farrukhw_github', variable: 'FARRUKHW_GITHUB_ID')]) {
-                    bat "git config user.email 'Farrukhw@gmail.com'"
-                    bat "git config user.name 'Farrukh'"
-                    bat "git commit version.txt -m \"Version updated to ${newVersion}\""
-                    bat "git tag -a ${newVersion} -m \"Version updated to ${newVersion}\""
-                    bat "git push https://${FARRUKHW_GITHUB_ID}@github.com/Farrukhw/dice-hello-world-nodejs --tags"
+
                     echo FARRUKHW_GITHUB_ID
                   }
 
                   withCredentials([usernamePassword(credentialsId: 'farrukhw_github', passwordVariable: 'my_pass', usernameVariable: 'my_user')]) {
-
+                    bat "git config user.email 'Farrukhw@gmail.com'"
+                    bat "git config user.name 'Farrukh'"
+                    bat "git commit version.txt -m \"Version updated to ${newVersion}\""
+                    bat "git tag -a ${newVersion} -m \"Version updated to ${newVersion}\""
+                    bat "git push https://${my_user}:${my_pass}@github.com/Farrukhw/dice-hello-world-nodejs --tags"
                     echo my_pass
                     echo my_user
 
