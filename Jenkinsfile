@@ -30,6 +30,8 @@ pipeline
                       bat("git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
                       bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs --tags --force")
                   }
+                  buildName BUILD_NUMBER + ' - ver: ' + newVersion
+                  //buildDescription "using @ ${NODE_NAME}"
                 }
                 else
                 {
