@@ -14,13 +14,13 @@ pipeline
           echo '============= testing ==================='
             script{
               WORKSAPCE = "${WORKSPACE}\\..\\GitHub.Testing"
+          
+              echo 'new WORKSAPCE: ' + WORKSPACE
+              dir (WORKSPACE) {
+                String newVersion = updateVersion()                
+                writefile file: 'version.txt', text: newVersion
+              }
             }
-          echo 'new WORKSAPCE: ' + WORKSPACE
-          dir (WORKSPACE) {
-            String newVersion = updateVersion()
-            
-            writefile file: 'version.txt', text: newVersion
-          }
         }
       }
     }
