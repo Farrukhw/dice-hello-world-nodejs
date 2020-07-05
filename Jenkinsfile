@@ -70,7 +70,8 @@ pipeline
 String updateVersion() {
     String orgVersion = readFile versionFile
     echo "Current Version: ${orgVersion}"
-    Integer (major, minor, build) = orgVersion.tokenize('.').collect { it.toInteger() }
+    /* groovylint-disable-next-line NoDef */
+    def (major, minor, build) = orgVersion.tokenize('.').collect { it.toInteger() }
     build += 1
     if (build >= 999) {
         minor += 1
