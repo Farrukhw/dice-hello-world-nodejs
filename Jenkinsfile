@@ -28,12 +28,12 @@ pipeline
 
                   try {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                      bat("${git} config credential.username ${env.GIT_USERNAME}")
-                      bat("${git} config credential.helper '!echo password=\$GIT_PASSWORD; echo'")                     
-                      bat("${git} commit version.txt -m \"Version updated to ${newVersion}\"")
-                      bat("GIT_ASKPASS=true ${git} push origin")
-                      bat("${git} tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
-                      bat("GIT_ASKPASS=true ${git} push origin --tags --force")
+                      bat("git config credential.username ${env.GIT_USERNAME}")
+                      bat("git config credential.helper '!echo password=\$GIT_PASSWORD; echo'")                     
+                      bat("git commit version.txt -m \"Version updated to ${newVersion}\"")
+                      bat('GIT_ASKPASS=true git push origin')
+                      bat("git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
+                      bat('GIT_ASKPASS=true git push origin --tags --force')
                     }
                   } finally {
                       bat("${git} config --unset credential.username")
