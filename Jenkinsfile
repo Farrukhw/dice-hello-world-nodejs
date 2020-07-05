@@ -1,5 +1,7 @@
 
 /* groovylint-disable-next-line CompileStatic */
+String newVersion = '8.8.8'
+String versionFile = 'version.txt'
 pipeline
 {
   agent any
@@ -8,8 +10,7 @@ pipeline
     containerName = 'testNode'
   }
 
-  String newVersion = '8.8.8'
-  String versionFile = 'version.txt'
+
   stages {
     stage('Build') {
       steps {
