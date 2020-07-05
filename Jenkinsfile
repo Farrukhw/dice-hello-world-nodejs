@@ -24,16 +24,33 @@ pipeline
                   echo "Naya Version: " + newVersion
                   writeFile file: 'version.txt', text: newVersion
 
-                  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                      bat("git config user.name 'farrukh'")
-                      bat("git config user.email 'farrukh1@gmail.com'")
-                      bat("git commit version.txt -m \"Version updated to ${newVersion}\"")
-                      bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs HEAD:master")
-                      bat("git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
-                      bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs --tags --force")
+                  echo "The git: ${git}"
+
+                  try {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                      bat("${git} config credential.username ${env.GIT_USERNAME}")
+                      bat("${git} config credential.helper '!echo password=\$GIT_PASSWORD; echo'")                     
+                      bat("${git} commit version.txt -m \"Version updated to ${newVersion}\"")
+                      bat("GIT_ASKPASS=true ${git} push origin")
+                      bat("${git} tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
+                      bat("GIT_ASKPASS=true ${git} push origin --tags --force")
+                    }
+                  } finally {
+                      bat("${git} config --unset credential.username")
+                      bat("${git} config --unset credential.helper")
                   }
-                  buildName BUILD_NUMBER + ' - ver: ' + newVersion
-                  buildDescription "Git Branch: ${GIT_BRANCH} @ ${NODE_NAME}"
+
+
+                  // withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                  //     bat("git config user.name 'farrukh'")
+                  //     bat("git config user.email 'farrukh1@gmail.com'")
+                  //     bat("git commit version.txt -m \"Version updated to ${newVersion}\"")
+                  //     bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs HEAD:master")
+                  //     bat("git tag -f -a ${newVersion} -m \"Version updated to ${newVersion}\"")
+                  //     bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs --tags --force")
+                  // }
+                  // buildName BUILD_NUMBER + ' - ver: ' + newVersion
+                  // buildDescription "Git Branch: ${GIT_BRANCH} @ Node: ${NODE_NAME}"
                 }
                 else
                 {
