@@ -1,13 +1,14 @@
 
 /* groovylint-disable-next-line CompileStatic */
-String newVersion = '8.8.8'
-String versionFile = 'version.txt'
+
 pipeline
 {
   agent any
   environment {
     registryCredential = 'Hub.Docker'
     containerName = 'testNode'
+    String newVersion = '8.8.8'
+    String versionFile = 'version.txt'
   }
 
 
