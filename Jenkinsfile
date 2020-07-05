@@ -52,11 +52,11 @@ pipeline
         always {
             script {
                 if (currentBuild.currentResult == 'FAILURE') { // Other values: SUCCESS, UNSTABLE
-                  buildName BUILD_NUMBER + '- ver: ' + newVersion + '- Failed'
+                  buildName BUILD_NUMBER + ' - ver: ' + newVersion + ' - Failed'
                 } else if (currentBuild.currentResult == 'UNSTABLE') {
-                  buildName BUILD_NUMBER + '- ver: ' + newVersion + '- Unstable'
+                  buildName BUILD_NUMBER + ' - ver: ' + newVersion + ' - Unstable'
                 } else {
-                  buildName BUILD_NUMBER + '- ver: ' + newVersion
+                  buildName BUILD_NUMBER + ' - ver: ' + newVersion
                 }
                 buildDescription "Git Branch: ${GIT_BRANCH} @ Node: ${NODE_NAME}"
             }
