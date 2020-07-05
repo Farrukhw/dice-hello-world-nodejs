@@ -6,24 +6,28 @@ pipeline
   environment {
     registryCredential = 'Hub.Docker'
     containerName = 'testNode'
-    String newVersion="8.8.8"
   }
-  
+
+  String newVersion = '8.8.8'
+  String versionFile = 'version.txt'
   stages {
     stage('Build') {
       steps {
           script {
             dir ("${WORKSPACE}\\..\\GitHub.Testing") {
-              echo "I am in : " + pwd()
+              echo 'I am in : ' + pwd()
               WORKSAPCE = pwd()
               echo 'new WORKSAPCE: ' + WORKSPACE
 
-              if (fileExists('version.txt')) {
+              /* groovylint-disable-next-line NestedBlockDepth */
+              if (fileExists(versionFile)) {
                 newVersion = updateVersion()
-                echo "Naya Version: " + newVersion
-                writeFile file: 'version.txt', text: newVersion
+                echo 'Naya Version: ' + newVersion
+                writeFile file: versionFile, text: newVersion
 
+                /* groovylint-disable-next-line LineLength, NestedBlockDepth */
                 try {
+                  /* groovylint-disable-next-line NestedBlockDepth */
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'farrukhw_github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                       bat("git config user.name ${env.GIT_USERNAME}")
                       bat("git config user.email 'farrukh1@gmail.com'")
@@ -33,8 +37,8 @@ pipeline
                       bat("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/Farrukhw/dice-hello-world-nodejs --tags --force")
                   }
                 } finally {
-                    bat("git config --unset user.name")
-                    bat("git config --unset user.email")
+                    bat('git config --unset user.name')
+                    bat('git config --unset user.email')
                 }
               }
               else
@@ -46,7 +50,6 @@ pipeline
         }
       }
     }
-
 
     post {
         always {
@@ -62,20 +65,16 @@ pipeline
             }
         }
     }
-
 }
 
-
-
 String updateVersion() {
-    echo "version.txt should be in " + pwd()
-    def orgVersion = readFile 'version.txt'
+    String orgVersion = readFile versionFile
     echo "Current Version: ${orgVersion}"
-    def (major, minor, build) = orgVersion.tokenize('.').collect { it.toInteger() }
-    build+=1
-    if(build>=999) {
-        minor+=1
-        build=0
+    Integer (major, minor, build) = orgVersion.tokenize('.').collect { it.toInteger() }
+    build += 1
+    if (build >= 999) {
+        minor += 1
+        build = 0
     }
     echo "Newly calculated Version: ${major}.${minor}.${build}"
     return "${major}.${minor}.${build}"
