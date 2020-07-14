@@ -11,6 +11,12 @@ pipeline
     String versionFile = 'version.txt'
   }
 
+  parameters {
+    string(name: 'Test1_ENV', defaultValue: 'staging1', description: '')
+    string(name: 'Test2_ENV', defaultValue: 'staging2', description: '')
+    booleanParam(name: 'ISYOU', defaultValue: true, description: '')
+    
+}
 
   stages {
     stage('Build') {
